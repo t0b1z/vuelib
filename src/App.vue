@@ -1,17 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>My Library</h1>
+    <h3>developed with Vue</h3>
+    <b-container>
+      <Library/>
+      <NewBookForm/>
+    </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Library from './components/Library.vue'
+import NewBookForm from "@/components/NewBookForm";
+import {storage} from './scripts/localStorage'
+import store from './store/index'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Library,
+    NewBookForm
+  },
+  created() {
+    if(storage.isLocalStorageAvailable()){
+      store.state.books = JSON.parse(storage.load("books"))
+      if(store.state.books){
+        console.log(JSON.stringify(store.state.books))
+      }else {
+        console.log("No books have been created yet...")
+      }
+    }
   }
 }
 </script>
